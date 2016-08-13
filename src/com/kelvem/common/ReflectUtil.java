@@ -37,7 +37,7 @@ public class ReflectUtil {
 		Class<? extends Object> cls = obj.getClass();
 		Map<String, Object> valueMap = new HashMap<String, Object>();
 
-		Field[] fields = cls.getDeclaredFields();
+		Field[] fields = cls.getFields();
 		for (Field field : fields) {
 			try {
 				String fieldName = field.getName();

@@ -75,7 +75,6 @@ public abstract class DataBaseSession {
 			
 			ResultSet rs = query(sql);
 
-			System.out.println(sql);
 			List<String[]> result = new ArrayList<String[]>();
 			int colCnt = rs.getMetaData().getColumnCount();
 			while(rs.next()) {
@@ -95,6 +94,40 @@ public abstract class DataBaseSession {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public String queryScalar(String sql) {
+
+//		System.out.println(sql);
+		try {
+			
+			List<String[]> result = queryString(sql);
+			
+			if (result == null || result.size() <= 0 || result.get(0).length <= 0) {
+				return null;
+			} else {
+				return  result.get(0)[0];
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public int count(String sql) {
+
+//		System.out.println(sql);
+		try {
+			
+			String result = queryScalar(sql);
+
+			int count = Integer.valueOf(result);
+			
+			return count;
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 	

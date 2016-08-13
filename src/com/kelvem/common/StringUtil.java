@@ -63,34 +63,6 @@ public class StringUtil {
 				+ fieldName.substring(1);
 	}
 	
-	// ###
-	public static String getFirstCharUpper(String str){
-		
-		if ( str == null || str.isEmpty()){
-    		return str;
-    	} 
-		
-		StringBuffer buf = new StringBuffer(str);
-		String first = String.valueOf(buf.charAt(0)).toUpperCase();
-        buf.setCharAt(0, first.charAt(0));
-        
-		return buf.toString();
-	}
-	
-	// ###
-	public static String getFirstCharLower(String str){
-		
-		if ( str == null || str.isEmpty()){
-    		return str;
-    	} 
-		
-		StringBuffer buf = new StringBuffer(str);
-		String first = String.valueOf(buf.charAt(0)).toLowerCase();
-        buf.setCharAt(0, first.charAt(0));
-        
-		return buf.toString();
-	}
-	
 	// columnModel -> COLUMN_MODEL
 	public static String fieldToColumnName(String name) { 
 		
@@ -199,5 +171,120 @@ public class StringUtil {
         		out.append(c);  
 		}
 		return  out.toString();
+	}
+
+	
+	/**
+	 * <p>Aaa -> aaa</p>
+	 * 
+	 * @param name
+	 * @return String
+	 * @see
+	 */
+	public static String toLowerFirstChar(String str) {
+		if ( str == null || str.isEmpty()){
+			return str;
+		} 
+		
+		if ( str.length() > 1 ){
+			str = str.substring(0, 1).toLowerCase() + str.substring(1);
+		} else {
+			str = str.toLowerCase();
+		}
+		
+		return str;
+	}
+	
+	/**
+	 * <p>aaa -> Aaa</p>
+	 * 
+	 * @param name
+	 * @return String
+	 * @see
+	 */
+	public static String toUpperFirstChar(String str) {
+		if ( str == null || str.isEmpty()){
+			return str;
+		} 
+		
+		if ( str.length() > 1 ){
+			str = str.substring(0, 1).toUpperCase() + str.substring(1);
+		} else {
+			str = str.toUpperCase();
+		}
+		
+		return str;
+	}
+	
+	/**
+	 * <p>AAA_AAA -> AaaAaa</p>
+	 * 
+	 * @param name
+	 * @return String
+	 * @see
+	 */
+	public static String AAA_AAAToAaaAaa(String name) { 
+		
+		if ( name == null || name.isEmpty()){
+			return name;
+		} 
+		
+		if ( name.toLowerCase().startsWith("b_") || name.toLowerCase().startsWith("c_") || name.toLowerCase().startsWith("t_")){
+			name = name.substring(2);
+		} else if (name.toLowerCase().startsWith("khj_")) {
+			name = name.substring(4);
+		}
+		
+		name = name.toLowerCase();
+		
+		StringBuffer buf = new StringBuffer("");
+		
+		String[] fields = name.replace('.', '_').split("_");
+		
+		for (String field : fields) {
+			buf.append(toUpperFirstChar(field));
+		}
+
+		return buf.toString(); 
+	}
+	
+	/**
+	 * <p>AAA_AAA -> aaaAaa</p>
+	 * 
+	 * @param name
+	 * @return String
+	 * @see
+	 */
+	public static String AAA_AAAToaaaAaa(String name) { 
+		
+		String buf = AAA_AAAToAaaAaa(name);
+
+		return toLowerFirstChar(buf); 
+	}
+	
+	/**
+	 * <p>aaaAaa -> aaa_aaa</p>
+	 * 
+	 * @param name
+	 * @return String
+	 * @see
+	 */
+	public static String aaaAaaToaaa_aaa(String name) { 
+		
+		if ( name == null || name.isEmpty()){
+			return name;
+		} 
+		StringBuilder sb = new StringBuilder();
+		
+		name = StringUtil.toLowerFirstChar(name);
+		char[] chars = name.toCharArray();
+		for (char c : chars) {
+			if (c >= 'A' && c <= 'Z') {
+				sb.append("_");
+			}
+			sb.append(c);
+		}
+
+		return sb.toString().toLowerCase(); 
 	}
 }

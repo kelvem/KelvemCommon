@@ -18,13 +18,24 @@ public class RegxUtil {
 
 	}
 	
-	public static List<String> match(String content, String pattern) {
-		return match(content, pattern, 0);
+	public static List<String> matchSingle(String content, String pattern) {
+
+		List<String> result = new ArrayList<String>();
+
+		Matcher match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(content);
+		if(match.find()){
+			for (int i = 0; i < match.groupCount() + 1; i++) {
+				String buf = match.group(i);
+				result.add(buf);
+			}
+		}
+
+		return result;
 	}
 
 	public static boolean contain(String content, String pattern) {
 		
-		Matcher match = Pattern.compile(pattern).matcher(content);
+		Matcher match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(content);
 		
 		if (match.find()){
 			return true;
@@ -37,7 +48,7 @@ public class RegxUtil {
 		
 		List<String> result = new ArrayList<String>();
 
-		Matcher match = Pattern.compile(pattern).matcher(content);
+		Matcher match = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE).matcher(content);
 		while(match.find()){
 			String buf = match.group(groupId);
 			result.add(buf);
